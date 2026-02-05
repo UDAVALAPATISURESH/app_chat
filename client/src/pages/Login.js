@@ -44,7 +44,10 @@ const Login = () => {
       const response = await api.post('/api/auth/login', formData);
       login(response.data.user, response.data.token);
       toast.success('Login successful!');
-      navigate('/chat');
+      // Use window.location for production to ensure full page reload
+      setTimeout(() => {
+        window.location.href = '/chat';
+      }, 500);
     } catch (err) {
       const errorMsg = err.response?.data?.error || 'Login failed. Please try again.';
       setError(errorMsg);

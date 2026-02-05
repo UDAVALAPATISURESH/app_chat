@@ -22,12 +22,15 @@ export const AuthProvider = ({ children }) => {
       api.get('/api/user/profile')
         .then(res => {
           setUser(res.data.user);
+          setLoading(false);
         })
-        .catch(() => {
-          localStorage.removeItem('token');
-          setToken(null);
-        })
-        .finally(() => {
+        .catch((err) => {
+          console.error('Profile fetch error:', err);
+          // Only clear token if it's actually invalid (401)
+          if (err.response?.status === 401) {
+            localStorage.removeItem('token');
+            setToken(null);
+          }
           setLoading(false);
         });
     } else {

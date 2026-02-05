@@ -46,7 +46,10 @@ const SignUp = () => {
       const response = await api.post('/api/auth/signup', formData);
       login(response.data.user, response.data.token);
       toast.success('Account created successfully!');
-      navigate('/chat');
+      // Use window.location for production to ensure full page reload
+      setTimeout(() => {
+        window.location.href = '/chat';
+      }, 500);
     } catch (err) {
       const errorMsg = err.response?.data?.error || 'Sign up failed. Please try again.';
       setError(errorMsg);

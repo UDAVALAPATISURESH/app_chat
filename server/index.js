@@ -45,7 +45,10 @@ const io = socketIo(server, {
 
 // ==================== MIDDLEWARE ====================
 // Enable CORS for all routes (allows frontend to make API calls)
-app.use(cors());
+app.use(cors({
+  origin: process.env.CLIENT_URL || "http://localhost:3000",
+  credentials: true
+}));
 
 // Parse JSON request bodies
 app.use(express.json());
